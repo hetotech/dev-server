@@ -1,0 +1,26 @@
+{
+  "name": "@hetotech/dev-server",
+  "version": "0.1.0",
+  "description": "A development server that rewrites bare module specifiers to full paths, adds .js extensions and index.js files to directory paths",
+  "bin": "index.js",
+  "scripts": {
+    "test": "mocha --timeout 0 --ui bdd test/**/*.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hetotech/dev-server.git"
+  },
+  "author": "Daniel Busłowicz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hetotech/dev-server/issues"
+  },
+  "homepage": "https://github.com/hetotech/dev-server#readme",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.1.1"
+  }
+}
