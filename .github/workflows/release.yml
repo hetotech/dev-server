@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  release:
+    types: [ published ]
+
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Configure npm and git
+      run: |
+        npm set //npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}
+        git config user.email "hetotech@users.noreply.github.com"
+        git config user.name "GitHub Actions"
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run tests
+      run: npm run test
+
+    - name: Update version
+      run: npm version ${GITHUB_REF:10} -m "Auto updating version to match a release (${GITHUB_REF:10})"
+      if: github.event_name == 'release'
+
+    - name: Bump version
+      run: |
+        npm version patch
+        VERSION=$(npm version | grep dev-server | sed "s/^.*dev-server': '//;s/',//")
+        git commit -m "Auto bumping patch version ($VERSION)" --amend
+      if: github.event_name == 'push'
+
+    - name: Publish and push updated package.json
+      run: |
+        npm publish
+        git push origin HEAD:master
+      if: success()
+
+    env:
+        CI: true
