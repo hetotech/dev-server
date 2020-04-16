@@ -41,6 +41,9 @@ describe('serving', () => {
     ajax("http://localhost:8080/node_modules/a/dir")
       .then((res) => expect(res).to.include('// index.js'))
   );
+  it('should ignore query string', () =>
+    ajax("http://localhost:8080/sample.html?query=string")
+      .then((res) => expect(res).to.include('<title>Sample HTML</title>')));
 });
 
 describe('imports rewriting', () => {

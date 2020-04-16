@@ -61,7 +61,8 @@ function findPath(bms) {
 }
 
 module.exports = createServer((req, res) => {
-  const absoluteUrl = req.url === "/" ? "index.html" : req.url;
+  const url = new URL("http://localhost:8080" + req.url);
+  const absoluteUrl = url.pathname === "/" ? "index.html" : url.pathname;
   const { ext, path } = getRelativePath(absoluteUrl);
   try {
     const fileContent = readFileSync(path)
