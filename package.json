@@ -1,6 +1,6 @@
 {
   "name": "@hetotech/dev-server",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A development server that rewrites bare module specifiers to full paths, adds .js extensions and index.js files to directory paths",
   "bin": "index.js",
   "scripts": {
