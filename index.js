@@ -67,8 +67,9 @@ module.exports = createServer((req, res) => {
   try {
     const fileContent = readFileSync(path)
       .toString()
-      .replace(/^import (.*? from )?(?<quote>['"])([^/.].*?)\k<quote>;?/gm, (
+      .replace(/^(import|export) (.*? from )?(?<quote>['"])([^/.].*?)\k<quote>;?/gm, (
         found,
+        method,
         imports,
         q,
         module
@@ -79,7 +80,7 @@ module.exports = createServer((req, res) => {
         } catch (e) {
           relativePath = `/node_modules/${module}`;
         }
-        return `import ${imports || ""}${q}/${relativePath}${q};`;
+        return `${method} ${imports || ""}${q}/${relativePath}${q};`;
       });
     res.writeHead(200, {
       'Content-Type': mimes[ ext || defaultExtension ],
